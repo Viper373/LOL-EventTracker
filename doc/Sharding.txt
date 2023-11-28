@@ -1,0 +1,7 @@
+configServer1：:123.57.50.204:27019【Primary】
+configServer2：:123.57.50.204:27020【Secondary】
+configServer3：:123.57.50.204:27021【Secondary】
+shard1：:123.57.50.204:3000【Primary】
+shard2：:123.57.50.204:3001【Secondary】
+shard3：:123.57.50.204:3002【Secondary】
+mongos：:123.57.50.204:27010

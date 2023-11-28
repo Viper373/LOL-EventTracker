@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>预约比赛战队</title>
+  <link crossorigin="anonymous" integrity="sha512-SSF+OBDODWTSIqOivYBOyOKQ93PBDevipJEUEWtkUbTt4v34rmgPcCXcBMolxZIJcuobcdqmYJlonjUBEbOzNw==" href="https://lib.baomitu.com/layui/2.7.6/css/layui.css" rel="stylesheet">
+  <link rel="shortcut icon" href="https://lpl.qq.com/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+  <legend>预约比赛战队</legend>
+</fieldset>
+<!--面板-->
+<div class="layui-card">
+  <div class="layui-card-body">
+    <!--表单-->
+        <form class="layui-form" action="">
+
+            <div class="layui-form-item" style="width: 100%; display: flex; justify-content: center; align-items: center;">
+              <label class="layui-form-label">赛事时间</label>
+              <div class="layui-inline" style="margin-bottom: 0;"> <!-- 注意：这一层元素并不是必须的 -->
+                <input class="layui-input" id="eventTime" placeholder="请选择时间" name="eventTime">
+              </div>
+            </div>
+          <div class="layui-form-item">
+            <div class="layui-col-md12">
+              <label class="layui-form-label">赛事名称</label>
+              <div class="layui-input-block">
+                <input type="text" name="eventName" class="layui-input">
+              </div>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-col-md12">
+              <label class="layui-form-label">赛事阶段</label>
+              <div class="layui-input-block">
+                <input type="text" name="eventStage" class="layui-input">
+              </div>
+            </div>
+          </div>
+          <!-- 第一个输入框 -->
+          <div class="layui-col-md6">
+            <div class="layui-form-item">
+              <label class="layui-form-label">A战队名称</label>
+              <div class="layui-input-block">
+                <input type="text" name="teamA.name" class="layui-input">
+              </div>
+            </div>
+          </div>
+          <!-- 第二个输入框 -->
+          <div class="layui-col-md6">
+            <div class="layui-form-item">
+              <label class="layui-form-label">B战队名称</label>
+              <div class="layui-input-block">
+                <input type="text" name="teamB.name" class="layui-input">
+              </div>
+            </div>
+          </div>
+          <!-- 第三个输入框 -->
+          <div class="layui-col-md6">
+            <div class="layui-form-item">
+              <label class="layui-form-label">A战队上单</label>
+              <div class="layui-input-block">
+                <input type="text" name="teamA.top" class="layui-input">
+              </div>
+            </div>
+          </div>
+          <!-- 第四个输入框 -->
+          <div class="layui-col-md6">
+            <div class="layui-form-item">
+              <label class="layui-form-label">B战队上单</label>
+              <div class="layui-input-block">
+                <input type="text" name="teamB.top" class="layui-input">
+              </div>
+            </div>
+          </div>
+          <!-- 第五个输入框 -->
+          <div class="layui-col-md6">
+            <div class="layui-form-item">
+              <label class="layui-form-label">A战队打野</label>
+              <div class="layui-input-block">
+                <input type="text" name="teamA.jungle" class="layui-input">
+              </div>
+            </div>
+          </div>
+          <!-- 第六个输入框 -->
+          <div class="layui-col-md6">
+            <div class="layui-form-item">
+              <label class="layui-form-label">B战队打野</label>
+              <div class="layui-input-block">
+                <input type="text" name="teamB.jungle" class="layui-input">
+              </div>
+            </div>
+          </div>
+          <!-- 第七个输入框 -->
+          <div class="layui-col-md6">
+            <div class="layui-form-item">
+              <label class="layui-form-label">A战队中单</label>
+              <div class="layui-input-block">
+                <input type="text" name="teamA.mid" class="layui-input">
+              </div>
+            </div>
+          </div>
+          <!-- 第八个输入框 -->
+          <div class="layui-col-md6">
+            <div class="layui-form-item">
+              <label class="layui-form-label">B战队中单</label>
+              <div class="layui-input-block">
+                <input type="text" name="teamB.mid" class="layui-input">
+              </div>
+            </div>
+          </div>
+          <!-- 第九个输入框 -->
+          <div class="layui-col-md6">
+            <div class="layui-form-item">
+              <label class="layui-form-label">A战队ADC</label>
+              <div class="layui-input-block">
+                <input type="text" name="teamA.adc" class="layui-input">
+              </div>
+            </div>
+          </div>
+          <!-- 第十个输入框 -->
+          <div class="layui-col-md6">
+            <div class="layui-form-item">
+              <label class="layui-form-label">B战队ADC</label>
+              <div class="layui-input-block">
+                <input type="text" name="teamB.adc" class="layui-input">
+              </div>
+            </div>
+          </div>
+          <!-- 第十一个输入框 -->
+          <div class="layui-col-md6">
+            <div class="layui-form-item">
+              <label class="layui-form-label">A战队辅助</label>
+              <div class="layui-input-block">
+                <input type="text" name="teamA.support" class="layui-input">
+              </div>
+            </div>
+          </div>
+          <!-- 第十二个输入框 -->
+          <div class="layui-col-md6">
+            <div class="layui-form-item">
+              <label class="layui-form-label">B战队辅助</label>
+              <div class="layui-input-block">
+                <input type="text" name="teamB.support" class="layui-input">
+              </div>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <div style="width:100%; text-align:center">
+              <button class="layui-btn" lay-submit lay-filter="formDemo">提交</button>
+              <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+          </div>
+        </form>
+  </div>
+</div>
+
+<script crossorigin="anonymous" integrity="sha512-mIKH3M2bRlIyhG4tBEbJ8dn8t8JFlNJU2NXlJePgpQ72CK4jAYsZyCGFcASRGtPBbcAQhz67KTkA1Jw6Kizk9g==" src="https://lib.baomitu.com/layui/2.7.6/layui.js"></script>
+<script>
+  layui.use('laydate', function(){
+    var laydate = layui.laydate;
+
+    //执行一个laydate实例
+    laydate.render({
+      elem: '#eventTime',
+      format: 'yyyy-MM-dd HH:mm:ss', //可任意组合
+      type: 'datetime',
+      theme: 'molv',
+    });
+  });
+</script>
+<script src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js"></script>
+<script>
+  layui.use('form',function(){
+    var form=layui.form;
+    form.on('submit(formDemo)',function(data){
+      $.ajax({
+        url: "/raceflow/add",
+        type: "POST",
+        data: data.field,
+        datatype: "JSON",
+        success: function(result){
+          layer.msg(result);
+        }
+      });
+      return false;
+    });
+  });
+</script>
+</body>
+</html>

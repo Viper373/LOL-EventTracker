@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>赛事数据管理</title>
+    <link rel="stylesheet" href="https://lib.baomitu.com/layui/2.7.6/css/layui.min.css">
+    <link rel="shortcut icon" href="https://lpl.qq.com/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>赛事数据管理</legend>
+</fieldset>
+<!-- 面板 -->
+<div class="layui-card">
+    <div class="layui-card-body">
+        <label class="layui-form-label">赛事编号</label>
+        <div class="layui-input-inline">
+            <input type="text" id="id" class="layui-input">
+        </div>
+        <button onclick="search();" class="layui-btn"><i class="layui-icon">&#xe615;</i></button>
+    </div>
+</div>
+
+<div style="padding: 20px;margin-bottom: 100px;">
+    <!-- 面板 -->
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">赛程信息</div>
+            <div class="layui-card-body" id="raceFlow" style="font-size: 16px">
+
+
+            </div>
+        </div>
+    </div>
+    <!-- 面板 -->
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">赛事数据</div>
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-body">
+                        <!-- 时间线 -->
+                        <ul class="layui-timeline" id="events_A">
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-body">
+                        <!-- 时间线 -->
+                        <ul class="layui-timeline" id="events_B">
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md12">
+        <!-- 面板 -->
+        <div class="layui-card">
+            <div class="layui-card-header">赛事数据列表</div>
+            <div class="layui-card-body">
+                <!-- 数据表格 -->
+                <table id="raceflowList" lay-filter="raceflowTable"></table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 头工具栏事件 筛选/导出/打印 -->
+<script type="text/html" id="toolbarDemo"></script>
+<!-- 行工具事件 -->
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://lib.baomitu.com/layui/2.7.6/layui.min.js"></script>
+<script>
+    // 搜索
+    function search() {
+        // 赛事编号
+        var id = $("#id").val();
+        $.ajax({
+            url: "/raceflow/" + id,
+            type: "GET",
+            dataType: "JSON",
+            // 拼接处理返回结果
+            success: function (raceFlow) {
+                if (raceFlow == null || raceFlow == undefined || raceFlow == "") {
+                    layer.msg("赛程信息不存在");
+                    return;
+                }
+                let teamA = raceFlow['teamA']
+                let teamB = raceFlow['teamB']
+                // 处理比赛信息
+                $("#raceFlow").append("<h4>" + "赛事编号：" + id + "（" + raceFlow["status"] + "）" + "</h4>" + "<hr/>")
+                    .append("<h5>" + "赛事名称：" + raceFlow["eventName"] + "</h5>")
+                    .append("<h5>" + "赛事阶段：" + raceFlow["eventStage"] + "<h5>")
+                    .append("<h5>" + "赛程时间：" + raceFlow["eventTime"] + "</h5>" + "<hr/>")
+                    .append("<h4>"+ "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" +  teamA["name"] + "&nbsp&nbsp&nbsp&nbsp" + "VS" + "&nbsp&nbsp&nbsp&nbsp" + teamB["name"] + "<h4>")
+                    .append("TOP：" + teamA["top"] + "⚔" + "TOP：" + teamB["top"] + "<br/>")
+                    .append("JUG：" + teamA["jungle"] + "⚔" + "JUG：" + teamB["jungle"] + "<br/>")
+                    .append("MID：" + teamA["mid"] + "⚔" + "MID：" + teamB["mid"] + "<br/>")
+                    .append("ADC：" + teamA["adc"] + "⚔" + "ADC：" + teamB["adc"] + "<br/>")
+                    .append("SUP：" + teamA["support"] + "⚔" + "SUP：" + teamB["support"] + "<hr/>");
+                // 获取战队信息
+                let events = raceFlow['events'];
+                // 循环
+                for (var i = 0; i < events.length; i++) {
+                    // 处理赛事数据信息
+                    $("#events_A").append('<li class="layui-timeline-item">' +
+                        '<i class="layui-icon layui-timeline-axis"></i>' +
+                        '<div class="layui-timeline-content layui-text">' +
+                        '<h3 class="layui-timeline-title">' + teamA.name + '</h3>' +
+                        '<h5>' + 'BO' + (i + 1) + '（' + raceFlow.status + '）' + '</h5>' +
+                        '<p>击杀：' + events[i].eventA.kill + '&nbsp;' + '&nbsp;' +
+                        '大龙：' + events[i].eventA.baron + '&nbsp;' + '&nbsp;' +
+                        '小龙：' + events[i].eventA.dragon + '&nbsp;'+ '&nbsp;' +
+                        '金钱：' + events[i].eventA.money + '&nbsp;'+ '&nbsp;' +
+                        '防御塔：' + events[i].eventA.tower + '&nbsp;'+ '&nbsp;' +
+                        '获胜情况：' + events[i].eventA.outcome +'</p></div></li>');
+                    // 处理赛事数据信息
+                    $("#events_B").append('<li class="layui-timeline-item">' +
+                        '<i class="layui-icon layui-timeline-axis"></i>' +
+                        '<div class="layui-timeline-content layui-text">' +
+                        '<h3 class="layui-timeline-title">' + teamB.name + '</h3>' +
+                        '<h5>' + 'BO' + (i + 1) + '（' + raceFlow.status + '）' + '</h5>' +
+                        '<p>击杀：' + events[i].eventB.kill + '&nbsp;' + '&nbsp;' +
+                        '大龙：' + events[i].eventB.baron + '&nbsp;' + '&nbsp;' +
+                        '小龙：' + events[i].eventB.dragon + '&nbsp;'+ '&nbsp;' +
+                        '金钱：' + events[i].eventB.money + '&nbsp;'+ '&nbsp;' +
+                        '防御塔：' + events[i].eventB.tower + '&nbsp;'+ '&nbsp;' +
+                        '获胜情况：' + events[i].eventB.outcome +'</p></div></li>');
+                }
+            },
+        });
+    }
+
+    // 数据表格
+    layui.use('table', function () {
+        var table = layui.table;
+        //第一个实例
+        table.render({
+            elem: '#raceflowList',
+            url: '/raceflow/list', //数据接口
+            page: true, //开启分页
+            toolbar: '#toolbarDemo', // 头工具栏
+            cols: [[ // 表头
+                {field: 'id', title: '赛事编号', sort: true, fixed: 'left'},
+                {field: 'status', title: '赛程状态'},
+                {field: 'eventTime', title: '比赛时间', sort: true},
+                {field: 'eventName', title: '赛事名称'},
+                {field: 'eventStage', title: '赛事阶段'},
+                {field: 'teamAName', title: 'A战队名称'},
+                {field: 'teamBName', title: 'B战队名称'},
+                {fixed: 'right', title: '操作', toolbar: '#barDemo'} // 行工具栏
+            ]]
+        });
+
+        //工具条事件
+        table.on('tool(raceflowTable)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+
+            if (layEvent === 'detail') { //查看
+                //do somehing
+            } else if (layEvent === 'del') { //删除
+                layer.confirm('确定删除吗', function (index) {
+                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                    layer.close(index);
+                    //向服务端发送删除指令
+                    $.ajax({
+                        url: "/raceflow/delete",
+                        type: "POST",
+                        data: {"id": data.id},
+                        dataType: "JSON",
+                        success: function (result) {
+                            layer.msg(result);
+                        }
+                    });
+                });
+            } else if (layEvent === 'edit') { //编辑
+                //do something
+
+                //同步更新缓存对应的值
+                obj.update({
+                    username: '123'
+                    , title: 'xxx'
+                });
+            } else if (layEvent === 'LAYTABLE_TIPS') {
+                layer.alert('Hi，头部工具栏扩展的右侧图标。');
+            }
+        });
+    });
+</script>
+</body>
+</html>
